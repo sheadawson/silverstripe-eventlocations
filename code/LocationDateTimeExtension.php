@@ -4,15 +4,14 @@
  *
  * @package silverstripe-eventlocations
  */
-class LocationDateTimeExtension extends DataObjectDecorator {
+class LocationDateTimeExtension extends DataExtension {
 
-	public function extraStatics() {
-		return array('has_one' => array(
-			'Location' => 'EventLocation'
-		));
-	}
+	public static $has_one = array(
+		'Location' => 'EventLocation'
+	);
 
-	public function updateDateTimeCMSFields($fields) {
+	public function updateCMSFields(FieldList $fields) {
+
 		if (!$locations = DataObject::get('EventLocation')) {
 			return;
 		}
@@ -31,18 +30,20 @@ class LocationDateTimeExtension extends DataObjectDecorator {
 			null, null, true);
 		$dropdown->addExtraClass('{ capacities: ' . Convert::array2json($capacities) . ' }');
 
-		$fields->addFieldToTab('Root.Main', $dropdown, 'StartDate');
+		$fields->push($dropdown);
 	}
 
-	public function updateDateTimeTable($table) {
-		$table->requirementsForPopupCallback = array($this, 'getPopupRequirements');
-	}
+	// TODO update this js stuff, functionality is related to the eventmanagement module
 
-	public function getPopupRequirements() {
-		Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
-		Requirements::javascript(THIRDPARTY_DIR . '/jquery-metadata/jquery.metadata.js');
-		Requirements::add_i18n_javascript('eventlocations/javascript/lang');
-		Requirements::javascript('eventlocations/javascript/LocationDateTimeCms.js');
-	}
+	// public function updateDateTimeTable($table) {
+	// 	$table->requirementsForPopupCallback = array($this, 'getPopupRequirements');
+	// }
+
+	// public function getPopupRequirements() {
+	// 	Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
+	// 	Requirements::javascript(THIRDPARTY_DIR . '/jquery-metadata/jquery.metadata.js');
+	// 	Requirements::add_i18n_javascript('eventlocations/javascript/lang');
+	// 	Requirements::javascript('eventlocations/javascript/LocationDateTimeCms.js');
+	// }
 
 }

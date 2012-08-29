@@ -9,4 +9,6 @@ if (!class_exists('Addressable')) {
 
 
 Object::add_extension('CalendarDateTime', 'LocationDateTimeExtension');
-Object::add_extension('EventTimeDetailsController', 'LocationDetailsExtension');
+
+// TODO is this still required?
+//Object::add_extension('EventTimeDetailsController', 'LocationDetailsExtension'); 
